@@ -6,11 +6,14 @@ package com.nmd.repository;
 
 import com.nmd.pojo.User;
 
+import java.util.List;
+
 /**
  *
  * @author admin
  */
 public interface UserRepository {
     User getUserByUsername(String username);
+    List<User> getAllAdmin();
     boolean register(User user);
 }

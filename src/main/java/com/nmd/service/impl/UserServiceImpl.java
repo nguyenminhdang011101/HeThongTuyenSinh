@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -57,6 +58,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return this.userRepository.getUserByUsername(username);
+    }
+
+    @Override
+    public List<User> getAllAdmin() {
+        return this.userRepository.getAllAdmin();
     }
 
     @Override

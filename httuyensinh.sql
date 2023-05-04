@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `banner`
+--
+
+DROP TABLE IF EXISTS `banner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `banner` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `anh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ttts_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_BANNER_TTTS_idx` (`ttts_id`),
+  CONSTRAINT `FK_BANNER_TTTS` FOREIGN KEY (`ttts_id`) REFERENCES `thongtints` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `banner`
+--
+
+LOCK TABLES `banner` WRITE;
+/*!40000 ALTER TABLE `banner` DISABLE KEYS */;
+/*!40000 ALTER TABLE `banner` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `comment`
 --
 
@@ -44,6 +70,83 @@ CREATE TABLE `comment` (
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `diem`
+--
+
+DROP TABLE IF EXISTS `diem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `diem` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nam` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `diem` decimal(2,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `diem`
+--
+
+LOCK TABLES `diem` WRITE;
+/*!40000 ALTER TABLE `diem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `diem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `he`
+--
+
+DROP TABLE IF EXISTS `he`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `he` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `ten` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ghiChu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci KEY_BLOCK_SIZE=1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `he`
+--
+
+LOCK TABLES `he` WRITE;
+/*!40000 ALTER TABLE `he` DISABLE KEYS */;
+INSERT INTO `he` VALUES (1,'Đại trà','Bình thường thoy');
+/*!40000 ALTER TABLE `he` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `khoa`
+--
+
+DROP TABLE IF EXISTS `khoa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `khoa` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `ten` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gioithieu` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `chuongtrinhdaotao` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `weblink` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `video` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `khoa`
+--
+
+LOCK TABLES `khoa` WRITE;
+/*!40000 ALTER TABLE `khoa` DISABLE KEYS */;
+INSERT INTO `khoa` VALUES (1,'CNTT','Day code','rat hay',NULL,NULL);
+/*!40000 ALTER TABLE `khoa` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -77,6 +180,65 @@ LOCK TABLES `livestream` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `thongtints`
+--
+
+DROP TABLE IF EXISTS `thongtints`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `thongtints` (
+  `id` int NOT NULL,
+  `tieude` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `noidung` varchar(4000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `thoigian` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `anh` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `he_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_ttts_he_idx` (`he_id`),
+  CONSTRAINT `FK_TTTS_HE` FOREIGN KEY (`he_id`) REFERENCES `he` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `thongtints`
+--
+
+LOCK TABLES `thongtints` WRITE;
+/*!40000 ALTER TABLE `thongtints` DISABLE KEYS */;
+INSERT INTO `thongtints` VALUES (1,'Tuyen sinh 2023','Tuyen them 1000 sinh vien','1/9/2022',NULL,1);
+/*!40000 ALTER TABLE `thongtints` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `truong`
+--
+
+DROP TABLE IF EXISTS `truong`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `truong` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `ten` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tenviettat` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `diachi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sdt` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `website` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `truong`
+--
+
+LOCK TABLES `truong` WRITE;
+/*!40000 ALTER TABLE `truong` DISABLE KEYS */;
+INSERT INTO `truong` VALUES (1,'Đại học Mở thành phố Hồ Chí Minh','OU','371 Nguyễn Kiêmh','ou@edu.com','0123123123','ou.edu.vn');
+/*!40000 ALTER TABLE `truong` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -95,7 +257,7 @@ CREATE TABLE `user` (
   `user_role` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,6 +266,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'Hai','Ngo','ngophuocminhhai@gmail.com','0358417588','admin','$2a$10$hIaWIdhxvL/BhhnpOIsnBuX5HD7PX43Lihf3.Swm78IC36GqlOKaS',NULL,'ROLE_ADMIN','https://res.cloudinary.com/dkhvz5a55/image/upload/v1683217341/nuolb3fq4ursj9ydwr0d.jpg');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -116,4 +279,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-04 22:25:22
+-- Dump completed on 2023-05-04 23:48:46

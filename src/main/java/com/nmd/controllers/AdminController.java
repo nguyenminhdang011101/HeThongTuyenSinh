@@ -4,17 +4,20 @@
  */
 package com.nmd.controllers;
 
+import com.nmd.pojo.LivestreamDetail;
+import com.nmd.pojo.User;
 import com.nmd.service.LivestreamService;
+import com.nmd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -25,4 +28,25 @@ import javax.validation.Valid;
 public class AdminController {
     @Autowired
     private LivestreamService livestreamService;
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/add-livestream")
+    public String addLivestreamView(@ModelAttribute(value = "livestream") LivestreamDetail livestream) {
+        return "add-livestream";
+    }
+    @PostMapping("/add-livestream-action")
+    public String addLivestreamAction(Model model, @ModelAttribute(value = "livestream") LivestreamDetail livestream,
+                                @PathVariable(value = "userID") int id) {
+        System.out.println(id);
+        return "add-livestream";
+    }
+    @ModelAttribute("userList")
+    public Map<String, String> getUserList() {
+        var admins = userService.getAllAdmin();
+        Map<String, String> e = admins.stream().collect(Collectors.toMap(User::getUsername, User::getFullName));
+        return e;
+    }
+
+
 }

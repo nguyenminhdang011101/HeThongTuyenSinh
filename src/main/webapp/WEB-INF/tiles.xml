@@ -26,5 +26,9 @@
         <put-attribute name="title" value="Livestream" />
         <put-attribute name="content" value="/WEB-INF/pages/livestream-page.jsp" />
     </definition>
+    <definition name="add-livestream" extends="baseLayout">
+        <put-attribute name="title" value="Add livestream" />
+        <put-attribute name="content" value="/WEB-INF/pages/add-livestream.jsp" />
+    </definition>
 </tiles-definitions>
 

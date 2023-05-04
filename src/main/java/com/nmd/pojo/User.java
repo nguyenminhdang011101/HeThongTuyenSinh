@@ -203,4 +203,8 @@ public class User implements Serializable {
     public void setAvatar(String secureUrl) {
         avatar = secureUrl;
     }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }

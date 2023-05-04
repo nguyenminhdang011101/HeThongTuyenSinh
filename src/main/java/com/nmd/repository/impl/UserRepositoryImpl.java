@@ -16,6 +16,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 /**
  *
@@ -37,6 +38,19 @@ public class UserRepositoryImpl implements UserRepository {
         q.where(b.equal(root.get("username"), username));
         Query query = s.createQuery(q);
         return (User) query.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public List<User> getAllAdmin() {
+        Session s = factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<User> q = b.createQuery(User.class);
+        Root root = q.from(User.class);
+        q.select(root);
+        q.where(b.equal(root.get("userRole"), "ROLE_ADMIN"));
+        Query query = s.createQuery(q);
+        return (List<User>) query.getResultList();
     }
 
     @Override

@@ -2,8 +2,8 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="com.nmd_HoTroTuyenSinh_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>cm.nmd.pojo.Thongtints</class>
-    <class>cm.nmd.pojo.He</class>
+    <class>com.nmd.pojo.Thongtints</class>
+    <class>com.nmd.pojo.He</class>
     <class>cm.nmd.pojo.Category</class>
     <class>cm.nmd.pojo.Product</class>
     <class>cm.nmd.pojo.SaleOrder</class>

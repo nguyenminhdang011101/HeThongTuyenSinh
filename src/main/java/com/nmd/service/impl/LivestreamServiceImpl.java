@@ -9,10 +9,14 @@ import com.cloudinary.utils.ObjectUtils;
 import com.nmd.pojo.LivestreamDetail;
 import com.nmd.repository.LivestreamRepository;
 import com.nmd.service.LivestreamService;
+import com.nmd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,17 +31,33 @@ public class LivestreamServiceImpl implements LivestreamService {
     private LivestreamRepository livestreamRepository;
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private UserService userService;
+
     @Override
-    public boolean addLivestream(LivestreamDetail detail) {
-        if (!detail.getThumbnailFile().isEmpty()) {
-            try {
-                Map res = this.cloudinary.uploader().upload(detail.getThumbnailFile().getBytes(),
-                        ObjectUtils.asMap("resource_type", "auto"));
-                detail.setThumbnail(res.get("secure_url").toString());
-            } catch (IOException ex) {
-                Logger.getLogger(LivestreamServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    public ResponseEntity<LivestreamDetail> addLivestream(String username, LivestreamDetail detail) {
+
+        try {
+            Map res = this.cloudinary.uploader().upload(detail.getThumbnailFile().getBytes(),
+                    ObjectUtils.asMap("resource_type", "auto"));
+            detail.setThumbnail(res.get("secure_url").toString());
+        } catch (IOException ex) {
+            Logger.getLogger(LivestreamServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        return this.livestreamRepository.addLivestream(detail);
+
+        try {
+            Map res = this.cloudinary.uploader().upload(detail.getVideoFile().getBytes(),
+                    ObjectUtils.asMap("resource_type", "auto"));
+            detail.setVideo(res.get("secure_url").toString());
+        } catch (IOException ex) {
+            Logger.getLogger(LivestreamServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        var user = userService.getUserByUsername(username);
+        detail.setCreatedDate(Calendar.getInstance().getTime());
+        detail.setPersonInCharge(user);
+        return livestreamRepository.addLivestream(detail);
     }
 }

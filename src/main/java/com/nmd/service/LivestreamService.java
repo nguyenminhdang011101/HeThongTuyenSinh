@@ -5,11 +5,12 @@
 package com.nmd.service;
 
 import com.nmd.pojo.LivestreamDetail;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
  * @author admin
  */
 public interface LivestreamService {
-    boolean addLivestream(LivestreamDetail detail);
+    ResponseEntity<LivestreamDetail> addLivestream(String username, LivestreamDetail detail);
 }

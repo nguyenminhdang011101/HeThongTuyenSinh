@@ -35,18 +35,17 @@ public class ApiComment {
     @Autowired
     private LivestreamService livestreamService;
     
-    @GetMapping("/products/{productId}/comments")
-    public ResponseEntity<List<Comment>> getComments(@PathVariable(value = "productId") int id) {
+    @GetMapping("/livestream-page/{livestreamID}/comments")
+    public ResponseEntity<List<Comment>> getComments(@PathVariable(value = "livestreamID") int id) {
         List<Comment> comments = this.commentService.getComments();
-        
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
     
-    @PostMapping(path = "/products/{productId}/comments", produces = {
+    @PostMapping(path = "/livestream-page/{livestreamID}/comments", produces = {
         MediaType.APPLICATION_JSON_VALUE
     })
     public ResponseEntity<Comment> addComment(@RequestBody Map<String, String> params, 
-            @PathVariable(value = "productId") int id, Principal pricipal) {
+            @PathVariable(value = "livestreamID") int id, Principal pricipal) {
 //        LivestreamDetail p = this.livestreamService.getProductById(id);
 //        User u = this.userService.getUserByUsername(pricipal.getName());
 //

@@ -39,8 +39,7 @@ public class LivestreamDetail implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull(message = "{livestream-detail.name.nullerr}")
-    @Size(min = 1, max = 225, message = "{livestream-detail.name.lenerr}")
+    @Size(min = 1, max = 225, message = "Tiêu đề phải nhập (< 225 ký tự)")
     @Column(name = "tieude")
     private String name;
     @Size(max = 4000)
@@ -61,7 +60,11 @@ public class LivestreamDetail implements Serializable {
     @JoinColumn(name = "person_in_charge")
     private User personInCharge;
     @Transient
+    @NotNull(message = "Thumbnail không được để trống")
     private MultipartFile thumbnailFile;
+    @Transient
+    @NotNull(message = "Thumbnail không được để trống")
+    private MultipartFile videoFile;
 
     public LivestreamDetail() {
     }
@@ -169,5 +172,13 @@ public class LivestreamDetail implements Serializable {
 
     public void setThumbnailFile(MultipartFile thumbnailFile) {
         this.thumbnailFile = thumbnailFile;
+    }
+
+    public MultipartFile getVideoFile() {
+        return videoFile;
+    }
+
+    public void setVideoFile(MultipartFile videoFile) {
+        this.videoFile = videoFile;
     }
 }

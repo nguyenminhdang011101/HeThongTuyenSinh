@@ -29,7 +29,6 @@
                     </div>
                     <input class="p-2" type="button" value="Them binh luan" onclick="addComment('${url}')"/>
                 </div>
-
             </div>
         </div>
     </div>

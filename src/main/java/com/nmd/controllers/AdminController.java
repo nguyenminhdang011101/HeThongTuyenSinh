@@ -4,19 +4,30 @@
  */
 package com.nmd.controllers;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.nmd.pojo.Comment;
 import com.nmd.pojo.LivestreamDetail;
 import com.nmd.pojo.User;
 import com.nmd.service.LivestreamService;
 import com.nmd.service.UserService;
+import com.nmd.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -36,10 +47,35 @@ public class AdminController {
         return "add-livestream";
     }
     @PostMapping("/add-livestream-action")
-    public String addLivestreamAction(Model model, @ModelAttribute(value = "livestream") LivestreamDetail livestream,
-                                @PathVariable(value = "userID") int id) {
-        System.out.println(id);
-        return "add-livestream";
+    public String addLivestreamAction(Model model, @RequestParam("username") String username
+            , @ModelAttribute(value = "livestream") @Valid LivestreamDetail livestream, BindingResult rs) {
+        if(username == null){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            model.addAttribute("errMsg", "Phải assign người phụ trách");
+            return "add-livestream";
+        }
+        if (rs.hasErrors()){
+            var error = new StringBuilder();
+            var errores = rs.getAllErrors();
+            for (var err :errores) {
+                error.append("<br>-").append(err.getDefaultMessage()).append("</br>");
+            }
+            model.addAttribute("errMsg", error);
+            return "add-livestream";
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (livestream.getThumbnailFile().isEmpty()) {
+            model.addAttribute("errMsg", "Phải chọn thumbnail");
+            return "add-livestream";
+            //return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        if (livestream.getVideoFile().isEmpty()) {
+            model.addAttribute("errMsg", "Phải chọn video");
+            return "add-livestream";
+            //return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        livestreamService.addLivestream(username, livestream);
+        return "add-livestream/"+livestream.getId();
     }
     @ModelAttribute("userList")
     public Map<String, String> getUserList() {

@@ -8,7 +8,7 @@
 
 <footer>
     <div class="mt-4 p-5 bg-primary text-white rounded">
-        <h1>BÁN HÀNG TRỰC TUYẾN</h1>
-        <p>Dương Hữu Thành &copy; 2023</p>
+        <h1>Hổ trợ tuyển sinh</h1>
+        <p>&copy; 2023</p>
     </div>
 </footer>

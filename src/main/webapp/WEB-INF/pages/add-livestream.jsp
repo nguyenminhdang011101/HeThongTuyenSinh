@@ -7,9 +7,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<header>
-
-</header>
+<c:if test="${errMsg != null}">
+    <div class="alert alert-danger">${errMsg}</div>
+</c:if>
 <h1>Thêm livestream video</h1>
 <section class="text-center">
     <div class="card mx-4 mx-md-5 shadow-5-strong" style="
@@ -22,39 +22,34 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-8">
                     <h2 class="fw-bold mb-5">Sign up now</h2>
-                    <c:url value="/admin/add-livestream-acion" var="action" />
+                    <c:url value="/admin/add-livestream-action" var="action" />
                     <form method="post" action="${action}" modelAttribute="livestream" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <div class="form-outline">
-                                    <input type="text" class="form-control" id="name" placeholder="Tiêu đề" name="name">
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <div class="form-outline">
-                                    <input type="text" class="form-control" id="description" placeholder="Tên" name="description">
-                                </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <input type="text" class="form-control" id="name" placeholder="Tiêu đề" name="name">
                             </div>
                         </div>
+                        <textarea class="form-control" rows="5" id="description" placeholder="Mô tả" name="description"></textarea>
                         <div class="form-outline mb-4">
                             <input type="text" class="form-control" id="phone" placeholder="Số điện thoại" name="phone">
                         </div>
-                        <td><form:label path = "userID">Người Phụ trách</form:label></td>
-                        <td class="form-outline mb-4">
-                            <form:select path = "userID" class="form-outline mb-4">
-                                <form:option class="form-outline mb-4" value = "" label = "Trống"/>
-                                <form:options class="form-outline mb-4" items = "${userList}" />
-                            </form:select>
-                        </td>
-                        <div class="form-outline mb-3 mt-3">
-                            <form:label path="file">Chọn ảnh đại diện</form:label>
-                            <input type="file" name="file" accept="image/png, image/jpeg"/>
+                        <div class="row">
+                            <form:label path="file">Chọn người đại diện</form:label>
+                            <select name="username">
+                                <option value="">Không ai</option>
+                                <c:forEach items="${userList}" var="user">
+                                    <option value="${user.key}">${user.value}</option>
+                                </c:forEach>
+                            </select>
                         </div>
-                        <c:if test="${user.file != null && user.file != ''}">
-                            <div class="form-floating mb-3 mt-3">
-                                <img src="${user.file}" width="120" />
-                            </div>
-                        </c:if>
+                        <div class="form-outline mb-3 mt-3">
+                            <form:label path="thumbnailFile">Chọn ảnh thumbnail</form:label>
+                            <input type="file" name="thumbnailFile" accept="image/png, image/jpeg"/>
+                        </div>
+                        <div class="form-outline mb-3 mt-3">
+                            <form:label path="videoFile">Chọn video</form:label>
+                            <input type="file" name="videoFile" accept="video/*"/>
+                        </div>
                         <input type="submit" value="Thêm" class="btn btn-danger" />
                     </form>
                 </div>

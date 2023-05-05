@@ -8,6 +8,8 @@ import com.nmd.pojo.LivestreamDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 /**
  *
  * @author admin
@@ -15,4 +17,8 @@ import org.springframework.http.ResponseEntity;
 public interface LivestreamRepository {
 
     ResponseEntity<LivestreamDetail> addLivestream(LivestreamDetail detail);
+
+    LivestreamDetail getLivestreamById(Integer id);
+
+    List<LivestreamDetail> getLivestream();
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class LivestreamServiceImpl implements LivestreamService {
         }
 
         try {
-            Map res = this.cloudinary.uploader().upload(detail.getVideoFile().getBytes(),
+            Map res = this.cloudinary.uploader().uploadLarge(detail.getVideoFile().getBytes(),
                     ObjectUtils.asMap("resource_type", "auto"));
             detail.setVideo(res.get("secure_url").toString());
         } catch (IOException ex) {
@@ -59,5 +60,15 @@ public class LivestreamServiceImpl implements LivestreamService {
         detail.setCreatedDate(Calendar.getInstance().getTime());
         detail.setPersonInCharge(user);
         return livestreamRepository.addLivestream(detail);
+    }
+
+    @Override
+    public LivestreamDetail getLivestreamById(Integer id) {
+        return this.livestreamRepository.getLivestreamById(id);
+    }
+
+    @Override
+    public List<LivestreamDetail> getLivestream() {
+        return this.livestreamRepository.getLivestream();
     }
 }

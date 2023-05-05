@@ -28,15 +28,12 @@ import java.util.Date;
     @NamedQuery(name = "LivestreamDetail.findByvideo", query = "SELECT p FROM LivestreamDetail p WHERE p.video = :video"),
     @NamedQuery(name = "LivestreamDetail.findBythumbnail", query = "SELECT p FROM LivestreamDetail p WHERE p.thumbnail = :thumbnail"),
     @NamedQuery(name = "LivestreamDetail.findBypersonInCharge", query = "SELECT p FROM LivestreamDetail p WHERE p.personInCharge = : personInCharge"),
-    @NamedQuery(name = "LivestreamDetail.findBycreatedDate", query = "SELECT p FROM LivestreamDetail p WHERE p.createdDate = :createdDate"),
-    @NamedQuery(name = "LivestreamDetail.findByActive", query = "SELECT p FROM LivestreamDetail p WHERE p.active = :active")})
+    @NamedQuery(name = "LivestreamDetail.findBycreatedDate", query = "SELECT p FROM LivestreamDetail p WHERE p.createdDate = :createdDate")})
 public class LivestreamDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @Size(min = 1, max = 225, message = "Tiêu đề phải nhập (< 225 ký tự)")
@@ -49,15 +46,12 @@ public class LivestreamDetail implements Serializable {
     @Column(name = "thumbnail")
     private String thumbnail;
     @Size(max = 100)
-    @Column(name = "video")
     private String video;
-    @Column(name = "created_date")
+    @Column(name = "thoigian")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @Column(name = "active")
-    private Boolean active;
     @ManyToOne
-    @JoinColumn(name = "person_in_charge")
+    @JoinColumn(name = "userID")
     private User personInCharge;
     @Transient
     @NotNull(message = "Thumbnail không được để trống")
@@ -65,19 +59,11 @@ public class LivestreamDetail implements Serializable {
     @Transient
     @NotNull(message = "Thumbnail không được để trống")
     private MultipartFile videoFile;
-
     public LivestreamDetail() {
     }
-
     public LivestreamDetail(Integer id) {
         this.id = id;
     }
-
-    public LivestreamDetail(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -125,14 +111,6 @@ public class LivestreamDetail implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -154,7 +132,7 @@ public class LivestreamDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.nmd.pojo.Product[ id=" + id + " ]";
+        return "com.nmd.pojo.LivestreamDetail[ id=" + id + " ]";
     }
 
 

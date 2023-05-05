@@ -15,4 +15,6 @@ import java.util.List;
 public interface CommentRepository {
     List<Comment> getComments();
     Comment addComment(Comment c);
+
+    List<Comment> getCommentsByStreamId(int id);
 }

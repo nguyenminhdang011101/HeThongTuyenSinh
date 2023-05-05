@@ -21,7 +21,6 @@
                     <h4 class="card-title">${p.tieude}ss</h4>
                     <p class="card-text">${p.noidung}...</p>
                     <a href="${detail}" class="btn btn-primary">Xem chi tiết</a>
-
                 </div>
             </div>
         </div>

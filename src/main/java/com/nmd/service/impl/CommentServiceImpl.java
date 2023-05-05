@@ -27,6 +27,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> getCommentsByStreamId(int id) {
+        return commentRepo.getCommentsByStreamId(id);
+    }
+
+    @Override
     public Comment addComment(Comment c) {
         return this.commentRepo.addComment(c);
     }

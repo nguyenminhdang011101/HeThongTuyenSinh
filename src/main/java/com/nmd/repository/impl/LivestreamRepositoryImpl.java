@@ -15,6 +15,12 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
+
 /**
  *
  * @author admin
@@ -26,6 +32,7 @@ public class LivestreamRepositoryImpl implements LivestreamRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
+    @Transactional
     public ResponseEntity<LivestreamDetail> addLivestream(LivestreamDetail detail) {
         Session s = this.factory.getObject().getCurrentSession();
         try {
@@ -35,5 +42,22 @@ public class LivestreamRepositoryImpl implements LivestreamRepository {
             ex.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @Override
+    public LivestreamDetail getLivestreamById(Integer id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(LivestreamDetail.class, id);
+    }
+
+    @Override
+    public List<LivestreamDetail> getLivestream() {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder cb = s.getCriteriaBuilder();
+        CriteriaQuery<LivestreamDetail> cq = cb.createQuery(LivestreamDetail.class);
+        Root<LivestreamDetail> rootEntry = cq.from(LivestreamDetail.class);
+        CriteriaQuery<LivestreamDetail> all = cq.select(rootEntry);
+        TypedQuery<LivestreamDetail> allQuery = s.createQuery(all);
+        return allQuery.getResultList();
     }
 }

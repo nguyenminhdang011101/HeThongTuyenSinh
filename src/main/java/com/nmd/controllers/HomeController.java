@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nmd.pojo.User;
+import com.nmd.service.LivestreamService;
 import com.nmd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ import javax.validation.Valid;
 public class HomeController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private LivestreamService livestreamService;
+
     @RequestMapping(path = {"/"})
     public String index(Model model) {
         List<Thongtints> thongtintss = new ArrayList<>();
@@ -44,10 +48,15 @@ public class HomeController {
     public String registerView() {
         return "register";
     }
+   @GetMapping("/livestreams")
+    public String livetreamsView(Model model) {
+       model.addAttribute("livestreams", livestreamService.getLivestream());
+        return "livestreams";
+    }
 
     @GetMapping("/livestream/{livestreamID}")
     public String livestreamView(Model model, @PathVariable(value = "livestreamID") String livestreamID) {
-        model.addAttribute("livestreamID", livestreamID);
+        model.addAttribute("livestream", livestreamService.getLivestreamById(Integer.parseInt(livestreamID)));
         return "livestream";
     }
 

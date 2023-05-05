@@ -45,16 +45,8 @@
                         <c:url value="/" var="action" />
                         <a class="nav-link" href="${action}">Trang chủ</a>
                     </li>
-                    <c:forEach items="${categories}" var="c">
-                        <c:url value="/" var="url">
-                            <c:param name="categoryId" value="${c.id}" />
-                        </c:url>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${url}">${c.name}</a>
-                        </li>
-                    </c:forEach>
                     <li class="nav-item">
-                        <a class="nav-link text-info" href="<c:url value="/livestream" />">&#128722; Livestream</a>
+                        <a class="nav-link text-info" href="<c:url value="/livestreams"/>"> Livestreams</a>
                     </li>
 
                     <c:choose>

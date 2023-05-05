@@ -74,8 +74,13 @@ public class AdminController {
             return "add-livestream";
             //return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        livestreamService.addLivestream(username, livestream);
-        return "add-livestream/"+livestream.getId();
+        var res = livestreamService.addLivestream(username, livestream);
+        if(res.getStatusCode() == HttpStatus.BAD_REQUEST){
+            model.addAttribute("errMsg", "Có lỗi xảy ra lúc upload");
+            return "add-livestream";
+        }
+        model.addAttribute("livestream", livestream);
+        return "livestream";
     }
     @ModelAttribute("userList")
     public Map<String, String> getUserList() {

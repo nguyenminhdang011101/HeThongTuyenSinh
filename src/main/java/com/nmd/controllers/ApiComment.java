@@ -37,7 +37,7 @@ public class ApiComment {
     
     @GetMapping("/livestream-page/{livestreamID}/comments")
     public ResponseEntity<List<Comment>> getComments(@PathVariable(value = "livestreamID") int id) {
-        List<Comment> comments = this.commentService.getComments();
+        List<Comment> comments = this.commentService.getCommentsByStreamId(id);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
     
@@ -46,19 +46,17 @@ public class ApiComment {
     })
     public ResponseEntity<Comment> addComment(@RequestBody Map<String, String> params, 
             @PathVariable(value = "livestreamID") int id, Principal pricipal) {
-//        LivestreamDetail p = this.livestreamService.getProductById(id);
-//        User u = this.userService.getUserByUsername(pricipal.getName());
-//
-//        Comment c = new Comment();
-//        c.setContent(params.get("content"));
-//        c.setProduct(p);
-//        c.setUser(u);
-//        c.setCreatedDate(new Date());
-//        c = this.commentService.addComment(c);
-//        System.out.println(c);
-//        if (c != null)
-//            return new ResponseEntity<>(c, HttpStatus.CREATED);
-//
+        LivestreamDetail p = this.livestreamService.getLivestreamById(id);
+        User u = this.userService.getUserByUsername(pricipal.getName());
+
+        Comment c = new Comment();
+        c.setContent(params.get("content"));
+        c.setLivestreamDetail(p);
+        c.setUser(u);
+        c.setCreatedDate(new Date());
+        c = this.commentService.addComment(c);
+        if (c != null)
+            return new ResponseEntity<>(c, HttpStatus.CREATED);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

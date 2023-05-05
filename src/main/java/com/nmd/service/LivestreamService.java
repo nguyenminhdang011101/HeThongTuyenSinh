@@ -7,10 +7,14 @@ package com.nmd.service;
 import com.nmd.pojo.LivestreamDetail;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 /**
  *
  * @author admin
  */
 public interface LivestreamService {
     ResponseEntity<LivestreamDetail> addLivestream(String username, LivestreamDetail detail);
+    LivestreamDetail getLivestreamById(Integer id);
+    List<LivestreamDetail> getLivestream();
 }
